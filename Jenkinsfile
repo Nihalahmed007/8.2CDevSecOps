@@ -25,6 +25,24 @@ pipeline {
             steps {
                 bat 'npm test || exit /b 0' // Continue even if tests fail
             }
+            post {
+                success {
+                    emailext (
+                        subject: "Jenkins Pipeline - Tests Passed",
+                        body: "All tests have passed successfully.\nCheck the logs attached.",
+                        to: "linknihal@gmail.com",
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext (
+                        subject: "Jenkins Pipeline - Tests Failed",
+                        body: "Some tests have failed.\nCheck the logs attached for details.",
+                        to: "linknihal@gmail.com",
+                        attachLog: true
+                    )
+                }
+            }
         }
 
         stage('Generate Coverage Report') {
