@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
  
     stages {
@@ -11,25 +11,36 @@ pipeline {
  
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                // Add Node.js to PATH for this stage
+                withEnv(['PATH=C:\\Program Files\\nodejs;%PATH%']) {
+                    bat 'node -v'
+                    bat 'npm -v'
+                    bat 'npm install'
+                }
             }
         }
  
         stage('Run Tests') {
             steps {
-                bat 'npm test || exit /b 0'
+                withEnv(['PATH=C:\\Program Files\\nodejs;%PATH%']) {
+                    bat 'npm test || exit /b 0'
+                }
             }
         }
  
         stage('Generate Coverage Report') {
             steps {
-                bat 'npm run coverage || exit /b 0'
+                withEnv(['PATH=C:\\Program Files\\nodejs;%PATH%']) {
+                    bat 'npm run coverage || exit /b 0'
+                }
             }
         }
  
         stage('NPM Audit (Security Scan)') {
             steps {
-                bat 'npm audit || exit /b 0'
+                withEnv(['PATH=C:\\Program Files\\nodejs;%PATH%']) {
+                    bat 'npm audit || exit /b 0'
+                }
             }
         }
     }
