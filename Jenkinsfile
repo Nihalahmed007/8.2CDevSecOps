@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Generate Coverage Repo') {
+        stage('Generate Coverage Repos') {
             steps {
                 bat 'npm run coverage || exit /b 0'
             }
